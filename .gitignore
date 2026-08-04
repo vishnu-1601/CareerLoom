@@ -29,3 +29,13 @@ flask_session/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Environment variables
+.env
+
+# AI Assistants
+.antigravity
+.claude
+antigravity/
+claude/
+
