@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerLoom - Form</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <h1>CareerLoom</h1>
+            <p>Role-Based Resume Builder</p>
+        </header>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        
+        <main class="form-wrapper glass-panel">
+            <form action="{{ url_for('generate') }}" method="POST" id="resume-form">
+                
+                <!-- Experience Level -->
+                <section class="form-section">
+                    <h2>Experience Level</h2>
+                    <div class="input-group">
+                        <label for="experience_level">Select your current stage:</label>
+                        <select name="experience_level" id="experience_level" class="input-field" required>
+                            <option value="Student" {% if resume_data.get('experience_level') == 'Student' %}selected{% endif %}>Student</option>
+                            <option value="Fresher" {% if resume_data.get('experience_level') == 'Fresher' %}selected{% endif %}>Fresher</option>
+                            <option value="Experienced" {% if resume_data.get('experience_level') == 'Experienced' %}selected{% endif %}>Experienced</option>
+                        </select>
+                    </div>
+                </section>
+
+                <!-- Personal Info -->
+                <section class="form-section">
+                    <h2>Personal Information</h2>
+                    <div class="grid-2-col">
+                        <div class="input-group">
+                            <label>Full Name</label>
+                            <input type="text" name="full_name" class="input-field" value="{{ resume_data.get('personal_info', {}).get('full_name', '') }}" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Email</label>
+                            <input type="email" name="email" class="input-field" value="{{ resume_data.get('personal_info', {}).get('email', '') }}" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Phone</label>
+                            <input type="text" name="phone" class="input-field" value="{{ resume_data.get('personal_info', {}).get('phone', '') }}">
+                        </div>
+                        <div class="input-group">
+                            <label>Portfolio / LinkedIn</label>
+                            <input type="text" name="links" class="input-field" value="{{ resume_data.get('personal_info', {}).get('links', '') }}">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Education -->
+                <section class="form-section" id="education-section">
+                    <h2>Education</h2>
+                    <div id="education-container">
+                        {% if resume_data.get('education_list') %}
+                            {% for edu in resume_data.get('education_list') %}
+                            <div class="dynamic-group glass-inner">
+                                <button type="button" class="remove-btn" onclick="this.parentElement.remove()">×</button>
+                                <div class="grid-2-col">
+                                    <div class="input-group"><label>Degree</label><input type="text" name="edu_degree[]" class="input-field" value="{{ edu.degree }}"></div>
+                                    <div class="input-group"><label>Institution</label><input type="text" name="edu_institution[]" class="input-field" value="{{ edu.institution }}"></div>
+                                    <div class="input-group"><label>Year</label><input type="text" name="edu_year[]" class="input-field" value="{{ edu.year }}"></div>
+                                    <div class="input-group"><label>Score/GPA</label><input type="text" name="edu_score[]" class="input-field" value="{{ edu.score }}"></div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="dynamic-group glass-inner">
+                                <div class="grid-2-col">
+                                    <div class="input-group"><label>Degree</label><input type="text" name="edu_degree[]" class="input-field"></div>
+                                    <div class="input-group"><label>Institution</label><input type="text" name="edu_institution[]" class="input-field"></div>
+                                    <div class="input-group"><label>Year</label><input type="text" name="edu_year[]" class="input-field"></div>
+                                    <div class="input-group"><label>Score/GPA</label><input type="text" name="edu_score[]" class="input-field"></div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <button type="button" class="btn-secondary add-btn" onclick="addEducation()">+ Add Education</button>
+                </section>
+
+                <!-- Projects -->
+                <section class="form-section" id="project-section">
+                    <h2>Projects</h2>
+                    <div id="project-container">
+                        {% if resume_data.get('project_list') %}
+                            {% for proj in resume_data.get('project_list') %}
+                            <div class="dynamic-group glass-inner">
+                                <button type="button" class="remove-btn" onclick="this.parentElement.remove()">×</button>
+                                <div class="input-group"><label>Title</label><input type="text" name="proj_title[]" class="input-field" value="{{ proj.title }}"></div>
+                                <div class="input-group"><label>Tech Stack</label><input type="text" name="proj_tech[]" class="input-field" value="{{ proj.tech_stack }}"></div>
+                                <div class="input-group"><label>Description</label><textarea name="proj_desc[]" class="input-field">{{ proj.description }}</textarea></div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="dynamic-group glass-inner">
+                                <div class="input-group"><label>Title</label><input type="text" name="proj_title[]" class="input-field"></div>
+                                <div class="input-group"><label>Tech Stack</label><input type="text" name="proj_tech[]" class="input-field"></div>
+                                <div class="input-group"><label>Description</label><textarea name="proj_desc[]" class="input-field"></textarea></div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <button type="button" class="btn-secondary add-btn" onclick="addProject()">+ Add Project</button>
+                </section>
+
+                <!-- Experience -->
+                <section class="form-section" id="experience-section">
+                    <h2>Work Experience</h2>
+                    <div id="experience-container">
+                        {% if resume_data.get('experience_list') %}
+                            {% for exp in resume_data.get('experience_list') %}
+                            <div class="dynamic-group glass-inner">
+                                <button type="button" class="remove-btn" onclick="this.parentElement.remove()">×</button>
+                                <div class="grid-2-col">
+                                    <div class="input-group"><label>Role</label><input type="text" name="exp_role[]" class="input-field" value="{{ exp.role }}"></div>
+                                    <div class="input-group"><label>Company</label><input type="text" name="exp_company[]" class="input-field" value="{{ exp.company }}"></div>
+                                    <div class="input-group"><label>Duration</label><input type="text" name="exp_duration[]" class="input-field" value="{{ exp.duration }}"></div>
+                                </div>
+                                <div class="input-group"><label>Responsibilities</label><textarea name="exp_resp[]" class="input-field">{{ exp.responsibilities }}</textarea></div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="dynamic-group glass-inner">
+                                <div class="grid-2-col">
+                                    <div class="input-group"><label>Role</label><input type="text" name="exp_role[]" class="input-field"></div>
+                                    <div class="input-group"><label>Company</label><input type="text" name="exp_company[]" class="input-field"></div>
+                                    <div class="input-group"><label>Duration</label><input type="text" name="exp_duration[]" class="input-field"></div>
+                                </div>
+                                <div class="input-group"><label>Responsibilities</label><textarea name="exp_resp[]" class="input-field"></textarea></div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <button type="button" class="btn-secondary add-btn" onclick="addExperience()">+ Add Experience</button>
+                </section>
+
+                <!-- Skills -->
+                <section class="form-section">
+                    <h2>Skills</h2>
+                    <div class="input-group">
+                        <label>List your skills (comma separated)</label>
+                        <textarea name="skills" class="input-field">{{ resume_data.get('skills', '') }}</textarea>
+                    </div>
+                </section>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Generate Resume</button>
+                </div>
+            </form>
+        </main>
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

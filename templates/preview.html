@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerLoom - Preview</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="app-container preview-layout">
+        <header class="app-header">
+            <h1>CareerLoom</h1>
+            <p>Your Resume is Ready</p>
+        </header>
+
+        <main class="preview-wrapper glass-panel">
+            <div class="preview-actions">
+                <a href="{{ url_for('edit') }}" class="btn-secondary">← Edit Form</a>
+                <a href="{{ url_for('download') }}" class="btn-primary">Download .tex</a>
+            </div>
+            
+            <div class="resume-preview">
+<pre>{{ generated_text }}</pre>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
