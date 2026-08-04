@@ -3,7 +3,6 @@
 
 ![Python Version](https://img.shields.io/badge/python-3.9%2B-blue)
 ![Flask](https://img.shields.io/badge/flask-%23000.svg?logo=flask&logoColor=white)
-![License](https://img.shields.io/badge/license-MIT-green)
 ![Status](https://img.shields.io/badge/status-In%20Development-orange)
 
 ---
@@ -21,7 +20,6 @@
 - [Routes / API Reference](#routes--api-reference)
 - [Roadmap](#roadmap)
 - [Contributing](#contributing)
-- [License](#license)
 - [Author / Contact](#author--contact)
 
 ---
@@ -216,18 +214,12 @@ Contributions, issues, and feature requests are welcome!
 
 ---
 
-## License
-Distributed under the MIT License. See `LICENSE` for more information. *(Note: LICENSE file to be added)*
-
----
-
 ## Author / Contact
 
-**Your Name**  
-*Full Stack Development Enthusiast*  
-- **LinkedIn:** [Your Profile](https://linkedin.com/in/yourprofile)  
-- **GitHub:** [@yourusername](https://github.com/yourusername)  
-- **Email:** your.email@example.com
+**Vishnu Shankar Pandey**  
+*Full Stack Development Enthusiast*
+- **LinkedIn:** [Your Profile](https://www.linkedin.com/in/vishnu-shankar-pandey-93879a302/)
+- **Email:** [vishnushankarpandey2003@gmail.com]
 
 ---
 
